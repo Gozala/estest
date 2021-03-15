@@ -33,7 +33,7 @@ export default display => async argv => {
       return
     }
     if (req.url.startsWith('/_cwd/')) {
-      const f = await fs.readFile(req.url.replace('/_cwd', argv.cwd))
+      const f = await fs.readFile(new URL(req.url.slice('/_cwd/'.length), argv.cwd))
       res.setHeader('content-type', 'text/javascript')
       res.end(f)
     }
