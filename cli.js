@@ -18,7 +18,13 @@ const options = yargs => {
   })
 }
 
-const _run = argv => run({ ...argv, stdout: process.stdout, cwd: process.cwd() })
+const cwd = process.cwd()
+
+const _run = argv => run({
+  ...argv,
+  stdout: process.stdout,
+  cwd: new URL(cwd.startsWith('/') ? `file://${cwd}/` : `file:///${cwd.replace(/\\g/, '/')}/`)
+})
 
 /* eslint-disable-next-line */
 const argv = yargs.command('$0 [files..]', 'Run test files', options, _run).argv
